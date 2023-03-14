@@ -10,10 +10,6 @@ export class UsersService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(userDto: UserEntity): Promise<void> {
-    console.log(userDto);
-  }
-
   async getUsers(): Promise<UserEntity[]> {
     return this.usersRepository.find();
   }

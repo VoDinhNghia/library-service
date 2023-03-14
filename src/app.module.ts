@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
+import { CronjobModule } from './modules/cronjob/cronjob.module';
 
 @Module({
   imports: [
@@ -14,7 +18,11 @@ import { UsersModule } from './modules/users/users.module';
       entities: [],
       synchronize: true,
     }),
+    ScheduleModule.forRoot(),
     UsersModule,
+    CronjobModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
