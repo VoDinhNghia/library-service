@@ -34,4 +34,7 @@ export class UserEntity {
 
   @Column()
   role?: string;
+
+  @Column()
+  numberPhone?: string;
 }
