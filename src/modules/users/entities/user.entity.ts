@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { EntityBasic } from 'src/utils/entity.basic';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Users extends EntityBasic {
   @Column({ length: 100 })
-  email?: string;
+  email: string;
 
   @Column()
   firstName: string;
@@ -26,15 +24,15 @@ export class UserEntity {
   @Column()
   passWord?: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatar?: string; // link url BE
 
   @Column()
-  status?: string;
+  status: string;
 
   @Column()
-  role?: string;
+  role: string;
 
-  @Column()
-  numberPhone?: string;
+  @Column({ nullable: true })
+  mobile?: string;
 }
