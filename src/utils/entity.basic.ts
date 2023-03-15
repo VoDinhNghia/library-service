@@ -22,6 +22,9 @@ export class EntityBasic {
   updatedBy?: string;
 
   @Column({ nullable: true })
+  createdBy?: string;
+
+  @Column({ nullable: true })
   deletedBy?: string;
 
   @DeleteDateColumn()
