@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Unique,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity()
 @Unique(['id'])
@@ -18,9 +24,6 @@ export class EntityBasic {
   @Column({ nullable: true })
   deletedBy?: string;
 
-  @Column({ nullable: true })
+  @DeleteDateColumn()
   deletedAt?: Date;
-
-  @Column({ default: false })
-  isDeleted: boolean;
 }

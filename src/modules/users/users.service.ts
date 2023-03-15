@@ -5,7 +5,6 @@ import { Users } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  // accepted to modify mobile and avatar in table users
   private readonly logger = new Logger(UsersService.name);
   constructor(
     @InjectRepository(Users)
