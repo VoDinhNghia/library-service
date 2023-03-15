@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Post,
   Req,
   Res,
@@ -17,6 +18,7 @@ import { Request } from 'express';
 @Controller('api/auth')
 @ApiTags('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
   constructor(private authService: AuthService) {}
 
   @Post('/login')
@@ -24,6 +26,7 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
+    this.logger.log('api login');
     const checkUser = await this.authService.login(loginDto);
     return new ResponseRequest(res, checkUser, `Login sucess.`);
   }
@@ -32,7 +35,8 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('/me')
   getProfile(@Req() req: Request, @Res() res: Response) {
-    const { user }: any = req;
+    this.logger.log('api get me');
+    const { user }: Request = req;
     return new ResponseRequest(res, user, `Get me success.`);
   }
 }
