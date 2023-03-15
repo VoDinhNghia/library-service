@@ -1,17 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from './entities/user.entity';
+import { Users } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
+  // accepted to modify mobile and avatar in table users
   private readonly logger = new Logger(UsersService.name);
   constructor(
-    @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>,
   ) {}
 
-  async getUsers(): Promise<UserEntity[]> {
+  async getUsers(): Promise<Users[]> {
     this.logger.log('api get users');
     return this.usersRepository.find();
   }
