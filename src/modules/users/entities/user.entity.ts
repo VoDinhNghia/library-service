@@ -6,13 +6,13 @@ export class Users extends EntityBasic {
   @Column({ length: 100 })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   middleName: string;
 
   @Column()
