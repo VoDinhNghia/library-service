@@ -59,6 +59,7 @@ $ npm run start:prod
 ```
 ### Swagger api
 ```
+http://localhost:3002/api-docs-library
 ```
 
 ## Test
