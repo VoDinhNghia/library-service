@@ -19,6 +19,9 @@ export class Users extends EntityBasic {
   userId?: string;
 
   @Column()
+  code: string;
+
+  @Column()
   profileId?: string;
 
   @Column()
