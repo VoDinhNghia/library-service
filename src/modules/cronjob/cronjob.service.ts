@@ -15,7 +15,7 @@ export class CronjobService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  @Cron('0 14 * * * *')
+  @Cron('0 0 04,12,23 * * *') // run at 04, 12, 23h every day
   public cronjobSyncData() {
     this.syncUsersDataFromBackend();
   }

@@ -7,6 +7,7 @@ import {
   UseGuards,
   Query,
   Post,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErolesUser, keyAccessBackend } from 'src/constants/constant';
@@ -55,5 +56,18 @@ export class UsersController {
     this.logger.log('api get users');
     const results = await this.service.getUsers(queryDto);
     return new ResponseRequest(res, results, 'Get user list success.');
+  }
+
+  @Get('/:id')
+  @ApiBearerAuth()
+  @ApiResponse({ type: UserResponseDto })
+  @UseGuards(JwtAuthGuard)
+  async getUserById(
+    @Param('id') id: number,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    this.logger.log('api get users by id');
+    const results = await this.service.getUserById(id);
+    return new ResponseRequest(res, results, 'Get user by id success.');
   }
 }

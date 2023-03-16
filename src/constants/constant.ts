@@ -25,3 +25,10 @@ export const linkAccessService = {
   LIBRARY_FRONTEND: 'http://localhost:8002',
   BACKEND: 'http://localhost:3000',
 };
+
+export enum EtypeRoom {
+  GROUP_STUDY = 'GROUP_STUDY',
+  COMPUTER = 'COMPUTER',
+  COMMON_READ = 'COMMON_READ',
+  BOOK = 'BOOK',
+}
