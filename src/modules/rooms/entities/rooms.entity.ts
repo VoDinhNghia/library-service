@@ -1,6 +1,7 @@
 import { EtypeRoom } from 'src/constants/constant';
+import { Users } from 'src/modules/users/entities/user.entity';
 import { EntityBasic } from 'src/utils/entity.basic';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Rooms extends EntityBasic {
@@ -18,4 +19,7 @@ export class Rooms extends EntityBasic {
 
   @Column({ default: EtypeRoom.BOOK })
   type?: string;
+
+  @ManyToOne(() => Users, (user) => user.room)
+  createdBy: Users;
 }
