@@ -20,6 +20,9 @@ export class Rooms extends EntityBasic {
   @Column({ default: EtypeRoom.BOOK })
   type?: string;
 
-  @ManyToOne(() => Users, (user) => user.room)
+  @ManyToOne(() => Users, (user) => user.createRoom)
   createdBy: Users;
+
+  @ManyToOne(() => Users, (user) => user.updateRoom)
+  updatedBy: Users;
 }
