@@ -5,6 +5,7 @@ import {
   Logger,
   Param,
   Post,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -17,6 +18,8 @@ import { RoleGuard } from '../auth/guards/role-auth.guard';
 import { CreateRoomDto } from './dtos/rooms.create.dto';
 import { RoomsService } from './rooms.service';
 import { Response, Request } from 'express';
+import { Users } from '../users/entities/user.entity';
+import { QueryRoomDto } from './dtos/rooms.query';
 
 @Controller('api/rooms')
 @ApiTags('rooms')
@@ -41,9 +44,21 @@ export class RoomsController {
   ): Promise<ResponseRequest> {
     this.logger.log('api create room');
     const { user }: Request | any = req;
-    const createdBy: number = user.userId;
+    const createdBy: Users = user.userId;
     const results = await this.roomService.createRoom(roomDto, createdBy);
     return new ResponseRequest(res, results, 'Create room success.');
+  }
+
+  @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async getRooms(
+    @Query() queryDto: QueryRoomDto,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    this.logger.log('api get rooms');
+    const results = await this.roomService.findAllRooms(queryDto);
+    return new ResponseRequest(res, results, 'Get rooms success.');
   }
 
   @Get('/:id')
