@@ -15,14 +15,12 @@ export class CronjobService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  @Cron('0 40 * * * *')
+  @Cron('0 14 * * * *')
   public cronjobSyncData() {
     this.syncUsersDataFromBackend();
   }
 
   async syncUsersDataFromBackend() {
-    // dữ liệu ít thì không vấn đề gì nhưng dữ liệu nhiều thì có (tìm cách migrate data 1 lần duy nhất) sau đó =>
-    // list users được lấy từ BE theo field updateAt, createdAt, bên này chỉ làm nhiệm vụ update hoặc tạo nếu tìm không thấy
     const url = `${linkAccessService.BACKEND}/api/sync-service/users`;
     const users = await new Http().get(url, keyAccessBackend);
     if (!users) {
@@ -30,7 +28,16 @@ export class CronjobService {
       return null;
     }
     try {
-      await this.usersRepository.clear();
+      const userIds = users.map((user: any) => {
+        return String(user?._id);
+      });
+      console.log(userIds);
+      await this.usersRepository
+        .createQueryBuilder()
+        .delete()
+        .from('users')
+        .where('users.userId IN (:...userId)', { userId: userIds })
+        .execute();
       const userDto = users.map((user: any) => {
         const dto = {
           email: user?.email,
@@ -51,7 +58,8 @@ export class CronjobService {
       const results = this.usersRepository.create(userDto);
       await this.usersRepository.save(results);
       this.logger.log('Sync data success!');
-    } catch {
+    } catch (error) {
+      console.log(error);
       this.logger.log('Sync data failed!');
     }
   }

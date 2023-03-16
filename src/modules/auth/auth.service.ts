@@ -7,6 +7,7 @@ import { Users } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginDto } from './dtos/auth.login.dto';
 import { UserResponseDto } from '../users/dtos/users.response.dto';
+import { EstatusUser } from 'src/constants/constant';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,7 @@ export class AuthService {
     const result = await this.usersRepository.findOneBy({
       email,
       passWord: password,
+      status: EstatusUser.ACTIVE,
     });
     return result ?? null;
   }
