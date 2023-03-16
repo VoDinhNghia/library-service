@@ -1,8 +1,8 @@
-import { Rooms } from 'src/modules/rooms/entities/rooms.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { UserRelation } from './user.entity.relation';
 
 @Entity()
-export class Users {
+export class Users extends UserRelation {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -47,7 +47,4 @@ export class Users {
 
   @Column({ nullable: true })
   mobile?: string;
-
-  @OneToMany(() => Rooms, (room) => room.createdBy)
-  room: Rooms[];
 }
