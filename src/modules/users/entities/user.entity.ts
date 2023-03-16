@@ -1,8 +1,17 @@
-import { EntityBasic } from 'src/utils/entity.basic';
-import { Entity, Column } from 'typeorm';
+import { Rooms } from 'src/modules/rooms/entities/rooms.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class Users extends EntityBasic {
+export class Users {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'datetime', default: () => 'NOW()' })
+  createdAt: Date;
+
+  @Column({ type: 'datetime', default: () => 'NOW()' })
+  updatedAt: Date;
+
   @Column({ length: 100 })
   email: string;
 
@@ -38,4 +47,7 @@ export class Users extends EntityBasic {
 
   @Column({ nullable: true })
   mobile?: string;
+
+  @OneToMany(() => Rooms, (room) => room.createdBy)
+  room: Rooms[];
 }
