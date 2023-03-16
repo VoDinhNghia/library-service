@@ -68,4 +68,12 @@ export class UsersService {
       total,
     };
   }
+
+  async getUserById(id: number): Promise<UserResponseDto> {
+    const result = await this.usersRepository.findOneBy({ id });
+    if (!result) {
+      new CommonException(404, 'User not found.');
+    }
+    return result;
+  }
 }
