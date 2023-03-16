@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonException } from 'src/exceptions/exeception.common-error';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UserQueryDto } from './dtos/users.query.dto';
 import { UserResponseDto } from './dtos/users.response.dto';
 import { Users } from './entities/user.entity';
@@ -54,7 +54,7 @@ export class UsersService {
       query.role = role;
     }
     if (searchKey) {
-      query.firstName = new RegExp(searchKey);
+      query.firstName = Like(`%${searchKey}`);
     }
     const data = await this.usersRepository.find({
       where: query,

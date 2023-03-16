@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
+import { Users } from '../users/entities/user.entity';
 import { CreateRoomDto } from './dtos/rooms.create.dto';
+import { QueryRoomDto } from './dtos/rooms.query';
 import { Rooms } from './entities/rooms.entity';
 
 @Injectable()
@@ -11,8 +13,8 @@ export class RoomsService {
     private readonly roomRepository: Repository<Rooms>,
   ) {}
 
-  async createRoom(roomDto: CreateRoomDto, createdBy: number): Promise<Rooms> {
-    const dto: Record<string, any> = {
+  async createRoom(roomDto: CreateRoomDto, createdBy: Users): Promise<Rooms> {
+    const dto: CreateRoomDto & { createdBy: Users } = {
       ...roomDto,
       createdBy,
     };
@@ -27,5 +29,26 @@ export class RoomsService {
       relations: { createdBy: true },
     });
     return result ?? null;
+  }
+
+  async findAllRooms(queryDto: QueryRoomDto): Promise<Rooms[]> {
+    const { limit, page, searchKey, status, type } = queryDto;
+    const query: Record<string, any> = {};
+    if (type) {
+      query.type = type;
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (searchKey) {
+      query.name = Like(`%${searchKey}`);
+    }
+    const results = await this.roomRepository.find({
+      where: query,
+      skip: Number(limit) * Number(page) - Number(limit),
+      take: limit,
+      relations: { createdBy: true },
+    });
+    return results;
   }
 }
