@@ -15,6 +15,10 @@ export class UsersService {
 
   async migrateUserFromBackend(users = []): Promise<void> {
     try {
+      const checkDb = await this.usersRepository.find();
+      if (checkDb.length > 0) {
+        new CommonException(409, 'Please contact with admin to handle.');
+      }
       await this.usersRepository.clear();
       const userDto = users.map((user: any) => {
         const dto = {
