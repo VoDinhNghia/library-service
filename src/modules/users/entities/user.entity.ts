@@ -13,22 +13,22 @@ export class Users extends UserRelation {
   updatedAt: Date;
 
   @Column({ length: 100 })
-  email: string;
+  email?: string;
 
   @Column({ nullable: true })
-  firstName: string;
+  firstName?: string;
 
   @Column({ nullable: true })
-  lastName: string;
+  lastName?: string;
 
   @Column({ nullable: true })
-  middleName: string;
+  middleName?: string;
 
   @Column()
   userId?: string;
 
   @Column()
-  code: string;
+  code?: string;
 
   @Column()
   profileId?: string;
@@ -40,10 +40,10 @@ export class Users extends UserRelation {
   avatar?: string; // link url BE
 
   @Column()
-  status: string;
+  status?: string;
 
   @Column()
-  role: string;
+  role?: string;
 
   @Column({ nullable: true })
   mobile?: string;
