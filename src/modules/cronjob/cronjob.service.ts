@@ -27,18 +27,10 @@ export class CronjobService {
       this.logger.log('Call BE failed!');
       return null;
     }
+    console.log(users);
     try {
-      const userIds = users.map((user: any) => {
-        return String(user?._id);
-      });
-      console.log(userIds);
-      await this.usersRepository
-        .createQueryBuilder()
-        .delete()
-        .from('users')
-        .where('users.userId IN (:...userId)', { userId: userIds })
-        .execute();
-      const userDto = users.map((user: any) => {
+      const userDto = [];
+      for (const user of users) {
         const dto = {
           email: user?.email,
           firstName: user?.profile?.firstName,
@@ -53,8 +45,18 @@ export class CronjobService {
           role: user?.role,
           mobile: user?.profile?.mobile,
         };
-        return dto;
-      });
+        const checkUser = await this.usersRepository.findOneBy({
+          userId: user?._id,
+        });
+        if (checkUser) {
+          await this.usersRepository.update(checkUser.id, {
+            ...dto,
+            updatedAt: new Date(),
+          });
+        } else {
+          userDto.push(dto);
+        }
+      }
       const results = this.usersRepository.create(userDto);
       await this.usersRepository.save(results);
       this.logger.log('Sync data success!');
