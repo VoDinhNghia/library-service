@@ -8,6 +8,7 @@ import { CronjobModule } from './modules/cronjob/cronjob.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
+import { LibraryModule } from './modules/library/library.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +33,7 @@ import { RoomsModule } from './modules/rooms/rooms.module';
     UsersModule,
     CronjobModule,
     RoomsModule,
+    LibraryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

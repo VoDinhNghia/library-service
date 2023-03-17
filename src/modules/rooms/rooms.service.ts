@@ -26,7 +26,11 @@ export class RoomsService {
     updateDto: UpdateRoomDto,
     updatedBy: Users,
   ): Promise<Rooms> {
-    await this.roomRepository.update(id, { ...updateDto, updatedBy });
+    await this.roomRepository.update(id, {
+      ...updateDto,
+      updatedBy,
+      updatedAt: new Date(),
+    });
     const result = await this.findRoomById(id);
     return result;
   }
