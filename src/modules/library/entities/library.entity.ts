@@ -6,23 +6,23 @@ import { Entity, Column, ManyToOne } from 'typeorm';
 @Entity()
 export class Library extends EntityBasic {
   @Column()
-  name: string;
+  name?: string;
 
   @Column({ default: numberIdLibrary })
   numberId: string;
 
   @Column({ nullable: true })
-  description: string;
+  description?: string;
 
   @Column({ type: 'datetime', default: () => 'NOW()' })
-  foundYear: Date;
+  foundYear?: Date;
 
   @ManyToOne(() => Users, (user) => user.librarian)
   librarian?: Users;
 
   @ManyToOne(() => Users, (user) => user.createRoom)
-  createdBy: Users;
+  createdBy?: Users;
 
   @ManyToOne(() => Users, (user) => user.updateRoom)
-  updatedBy: Users;
+  updatedBy?: Users;
 }
