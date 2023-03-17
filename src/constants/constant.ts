@@ -32,3 +32,5 @@ export enum EtypeRoom {
   COMMON_READ = 'COMMON_READ',
   BOOK = 'BOOK',
 }
+
+export const numberIdLibrary = '101_library';
