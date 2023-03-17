@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CommonException } from 'src/exceptions/exeception.common-error';
 import { Like, Repository } from 'typeorm';
 import { Users } from '../users/entities/user.entity';
 import { CreateRoomDto } from './dtos/rooms.create.dto';
 import { QueryRoomDto } from './dtos/rooms.query';
+import { UpdateRoomDto } from './dtos/rooms.update.dto';
 import { Rooms } from './entities/rooms.entity';
 
 @Injectable()
@@ -14,12 +16,18 @@ export class RoomsService {
   ) {}
 
   async createRoom(roomDto: CreateRoomDto, createdBy: Users): Promise<Rooms> {
-    const dto: CreateRoomDto & { createdBy: Users } = {
-      ...roomDto,
-      createdBy,
-    };
-    const result = this.roomRepository.create(dto);
+    const result = this.roomRepository.create({ ...roomDto, createdBy });
     await this.roomRepository.save(result);
+    return result;
+  }
+
+  async updateRoom(
+    id: number,
+    updateDto: UpdateRoomDto,
+    updatedBy: Users,
+  ): Promise<Rooms> {
+    await this.roomRepository.update(id, { ...updateDto, updatedBy });
+    const result = await this.findRoomById(id);
     return result;
   }
 
@@ -28,10 +36,15 @@ export class RoomsService {
       where: { id },
       relations: { createdBy: true },
     });
-    return result ?? null;
+    if (!result) {
+      new CommonException(404, 'Room not found.');
+    }
+    return result;
   }
 
-  async findAllRooms(queryDto: QueryRoomDto): Promise<Rooms[]> {
+  async findAllRooms(
+    queryDto: QueryRoomDto,
+  ): Promise<{ data: Rooms[]; total: number }> {
     const { limit, page, searchKey, status, type } = queryDto;
     const query: Record<string, any> = {};
     if (type) {
@@ -49,6 +62,15 @@ export class RoomsService {
       take: limit,
       relations: { createdBy: true },
     });
-    return results;
+    const total = await this.roomRepository.count();
+    return {
+      data: results,
+      total,
+    };
+  }
+
+  async deleteRoom(id: number): Promise<void> {
+    const result = await this.findRoomById(id);
+    await this.roomRepository.softRemove(result);
   }
 }
