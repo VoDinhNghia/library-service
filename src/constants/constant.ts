@@ -44,8 +44,7 @@ export const linkAccessService = {
   COURSE: 'http://localhost:3003',
   ATTENDANCE: 'http://localhost:3001',
   ADMIN_FRONTEND: 'http://localhost:8000',
-  FRONTEND: 'http://localhost:8001',
-  LIBRARY_FRONTEND: 'http://localhost:8002',
+  LIBRARY_FRONTEND: 'http://localhost:8001',
   BACKEND: 'http://localhost:3000',
 };
 
