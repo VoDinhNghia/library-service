@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { LibraryModule } from './modules/library/library.module';
 import { LibraryServicesModule } from './modules/library-services/library-services.module';
+import { ChatModule } from './modules/chat/chat.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +37,7 @@ import { LibraryServicesModule } from './modules/library-services/library-servic
     RoomsModule,
     LibraryModule,
     LibraryServicesModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
