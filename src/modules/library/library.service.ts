@@ -42,7 +42,7 @@ export class LibraryService {
   async getLibraryInfo(): Promise<Library> {
     const result = await this.libraryRepository.findOne({
       where: { numberId: numberIdLibrary },
-      relations: { updatedBy: true, librarian: true },
+      relations: { librarian: true },
     });
     if (!result) {
       new CommonException(404, 'Room not found.');

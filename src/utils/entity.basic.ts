@@ -9,8 +9,8 @@ import {
 @Entity()
 @Unique(['id'])
 export class EntityBasic {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'datetime', default: () => 'NOW()' })
   createdAt: Date;

@@ -23,10 +23,4 @@ export class ServiceGroupStudy extends EntityBasic {
 
   @ManyToOne(() => Users, (user) => user.userGroupService)
   user?: Users;
-
-  @ManyToOne(() => Users, (user) => user.createRoom)
-  createdBy: Users;
-
-  @ManyToOne(() => Users, (user) => user.updateRoom)
-  updatedBy: Users;
 }

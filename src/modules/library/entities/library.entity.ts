@@ -19,10 +19,4 @@ export class Library extends EntityBasic {
 
   @ManyToOne(() => Users, (user) => user.librarian)
   librarian?: Users;
-
-  @ManyToOne(() => Users, (user) => user.createRoom)
-  createdBy?: Users;
-
-  @ManyToOne(() => Users, (user) => user.updateRoom)
-  updatedBy?: Users;
 }

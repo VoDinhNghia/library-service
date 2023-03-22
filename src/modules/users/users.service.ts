@@ -19,7 +19,7 @@ export class UsersService {
       if (checkDb.length > 0) {
         new CommonException(409, 'Please contact with admin to handle.');
       }
-      await this.usersRepository.clear();
+      // await this.usersRepository.clear();
       const userDto = users.map((user: any) => {
         const dto = {
           email: user?.email,
@@ -40,8 +40,8 @@ export class UsersService {
       const results = this.usersRepository.create(userDto);
       await this.usersRepository.save(results);
       console.log('Sync data success!');
-    } catch {
-      console.log('Sync data failed!');
+    } catch (error) {
+      console.log('Sync data failed!', error);
       new CommonException(500, 'Can not sync data.');
     }
   }
@@ -73,7 +73,7 @@ export class UsersService {
     };
   }
 
-  async getUserById(id: number): Promise<UserResponseDto> {
+  async getUserById(id: string): Promise<UserResponseDto> {
     const result = await this.usersRepository.findOneBy({ id });
     if (!result) {
       new CommonException(404, 'User not found.');
