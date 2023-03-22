@@ -3,8 +3,8 @@ import { UserRelation } from './user.entity.relation';
 
 @Entity()
 export class Users extends UserRelation {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'datetime', default: () => 'NOW()' })
   createdAt: Date;

@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -19,8 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RoleGuard } from '../auth/guards/role-auth.guard';
 import { CreateRoomDto } from './dtos/rooms.create.dto';
 import { RoomsService } from './rooms.service';
-import { Response, Request } from 'express';
-import { Users } from '../users/entities/user.entity';
+import { Response } from 'express';
 import { QueryRoomDto } from './dtos/rooms.query';
 
 @Controller('api/rooms')
@@ -42,12 +40,9 @@ export class RoomsController {
   async createRoom(
     @Body() roomDto: CreateRoomDto,
     @Res() res: Response,
-    @Req() req: Request,
   ): Promise<ResponseRequest> {
     this.logger.log('api create room');
-    const { user }: Request | any = req;
-    const createdBy: Users = user.userId;
-    const results = await this.roomService.createRoom(roomDto, createdBy);
+    const results = await this.roomService.createRoom(roomDto);
     return new ResponseRequest(res, results, 'Create room success.');
   }
 
@@ -62,15 +57,12 @@ export class RoomsController {
     ]),
   )
   async updateRoom(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() roomDto: CreateRoomDto,
     @Res() res: Response,
-    @Req() req: Request,
   ): Promise<ResponseRequest> {
     this.logger.log('api update room');
-    const { user }: Request | any = req;
-    const updatedBy: Users = user.userId;
-    const results = await this.roomService.updateRoom(id, roomDto, updatedBy);
+    const results = await this.roomService.updateRoom(id, roomDto);
     return new ResponseRequest(res, results, 'Update room success.');
   }
 
@@ -85,7 +77,7 @@ export class RoomsController {
     ]),
   )
   async deleteRoom(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     this.logger.log('api delete room');
@@ -109,7 +101,7 @@ export class RoomsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getRoomById(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     this.logger.log('api get room by id');

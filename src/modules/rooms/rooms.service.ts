@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonException } from 'src/exceptions/exeception.common-error';
 import { Like, Repository } from 'typeorm';
-import { Users } from '../users/entities/user.entity';
 import { CreateRoomDto } from './dtos/rooms.create.dto';
 import { QueryRoomDto } from './dtos/rooms.query';
 import { UpdateRoomDto } from './dtos/rooms.update.dto';
@@ -15,30 +14,24 @@ export class RoomsService {
     private readonly roomRepository: Repository<Rooms>,
   ) {}
 
-  async createRoom(roomDto: CreateRoomDto, createdBy: Users): Promise<Rooms> {
-    const result = this.roomRepository.create({ ...roomDto, createdBy });
+  async createRoom(roomDto: CreateRoomDto): Promise<Rooms> {
+    const result = this.roomRepository.create({ ...roomDto });
     await this.roomRepository.save(result);
     return result;
   }
 
-  async updateRoom(
-    id: number,
-    updateDto: UpdateRoomDto,
-    updatedBy: Users,
-  ): Promise<Rooms> {
+  async updateRoom(id: string, updateDto: UpdateRoomDto): Promise<Rooms> {
     await this.roomRepository.update(id, {
       ...updateDto,
-      updatedBy,
       updatedAt: new Date(),
     });
     const result = await this.findRoomById(id);
     return result;
   }
 
-  async findRoomById(id: number): Promise<Rooms> {
+  async findRoomById(id: string): Promise<Rooms> {
     const result = await this.roomRepository.findOne({
       where: { id },
-      relations: { createdBy: true },
     });
     if (!result) {
       new CommonException(404, 'Room not found.');
@@ -64,7 +57,6 @@ export class RoomsService {
       where: query,
       skip: Number(limit) * Number(page) - Number(limit),
       take: limit,
-      relations: { createdBy: true },
     });
     const total = await this.roomRepository.count();
     return {
@@ -73,7 +65,7 @@ export class RoomsService {
     };
   }
 
-  async deleteRoom(id: number): Promise<void> {
+  async deleteRoom(id: string): Promise<void> {
     const result = await this.findRoomById(id);
     await this.roomRepository.softRemove(result);
   }

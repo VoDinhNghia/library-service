@@ -63,7 +63,7 @@ export class UsersController {
   @ApiResponse({ type: UserResponseDto })
   @UseGuards(JwtAuthGuard)
   async getUserById(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     this.logger.log('api get users by id');
