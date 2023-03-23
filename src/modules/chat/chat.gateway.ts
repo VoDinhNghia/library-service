@@ -18,19 +18,27 @@ export class ChatGateway implements OnGatewayConnection {
 
   @SubscribeMessage('test_message')
   async listenForMessages(
-    @MessageBody() content: string,
+    @MessageBody() content: Record<string, string>,
     @ConnectedSocket() socket: Socket,
   ) {
     const authorization = socket?.handshake?.headers?.authorization || '';
     if (authorization) {
       console.log('data receive', content);
       const author = await this.chatService.getUserFromSocket(authorization);
-      const conversation = await this.chatService.createConversation({
-        createdId: author.id,
-      });
+      let result = {};
+      if (!content.conversationId) {
+        result = await this.chatService.createConversation({
+          createdId: author.id,
+          ...content,
+        });
+      } else {
+        result = await this.chatService.createMessage({
+          ...content,
+          userSendId: author.id,
+        });
+      }
       this.server.sockets.emit('test_message', {
-        content,
-        conversation,
+        result,
       });
     }
   }
