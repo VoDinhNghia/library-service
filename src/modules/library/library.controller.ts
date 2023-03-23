@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Put,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Put, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ErolesUser } from 'src/constants/constant';
 import { ResponseRequest } from 'src/utils/response-api';
@@ -14,8 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RoleGuard } from '../auth/guards/role-auth.guard';
 import { CreateLibraryDto } from './dtos/library.create.dto';
 import { LibraryService } from './library.service';
-import { Request, Response } from 'express';
-import { Users } from '../users/entities/user.entity';
+import { Response } from 'express';
 import { UpdateLibraryDto } from './dtos/library.update.dto';
 
 @Controller('api/library')
@@ -36,11 +27,8 @@ export class LibraryController {
   async updateLibrary(
     @Body() libraryDto: UpdateLibraryDto,
     @Res() res: Response,
-    @Req() req: Request,
   ): Promise<ResponseRequest> {
-    const { user }: Request | any = req;
-    const updatedBy: Users = user.userId;
-    const result = await this.service.updateLibrary(libraryDto, updatedBy);
+    const result = await this.service.updateLibrary(libraryDto);
     return new ResponseRequest(res, result, 'Update library success');
   }
 
