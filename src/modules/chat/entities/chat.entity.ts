@@ -5,8 +5,14 @@ import { Conversation } from './conversation.entity';
 
 @Entity()
 export class Message extends EntityBasic {
-  @ManyToOne(() => Conversation, (conver) => conver.message)
-  conversation?: Conversation;
+  @Column()
+  conversationId?: string;
+
+  @Column({ nullable: false })
+  userSendId: string;
+
+  @Column({ nullable: false })
+  userReceiveId: string;
 
   @Column({ default: false })
   status?: boolean;
@@ -19,4 +25,7 @@ export class Message extends EntityBasic {
 
   @ManyToOne(() => Users, (user) => user.userReceive)
   userReceive?: Users;
+
+  @ManyToOne(() => Conversation, (conver) => conver.message)
+  conversation?: Conversation;
 }
