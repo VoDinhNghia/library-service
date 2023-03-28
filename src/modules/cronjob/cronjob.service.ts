@@ -37,6 +37,7 @@ export class CronjobService {
           lastName: user?.profile?.lastName,
           middleName: user?.profile?.middleName,
           userId: user?._id,
+          isDeleted: user?.isDeleted,
           code: user?.profile?.code,
           profileId: user?.profile?._id,
           passWord: user?.passWord,

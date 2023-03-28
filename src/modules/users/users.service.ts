@@ -30,6 +30,7 @@ export class UsersService {
           code: user?.profile?.code,
           profileId: user?.profile?._id,
           passWord: user?.passWord,
+          isDeleted: user?.isDeleted,
           avatar: user?.profile?.avatar,
           status: user?.status,
           role: user?.role,
