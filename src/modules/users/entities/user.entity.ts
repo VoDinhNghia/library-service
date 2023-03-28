@@ -12,6 +12,9 @@ export class Users extends UserRelation {
   @Column({ type: 'datetime', default: () => 'NOW()' })
   updatedAt: Date;
 
+  @Column({ default: false })
+  isDeleted?: boolean;
+
   @Column({ length: 100 })
   email?: string;
 

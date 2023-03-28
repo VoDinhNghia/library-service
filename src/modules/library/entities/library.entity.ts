@@ -11,7 +11,7 @@ export class Library extends EntityBasic {
   @Column({ default: numberIdLibrary })
   numberId: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 2000 })
   description?: string;
 
   @Column({ type: 'datetime', default: () => 'NOW()' })
