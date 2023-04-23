@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CommonException } from 'src/exceptions/exeception.common-error';
-import { cryptoPassWord } from 'src/constants/crypto';
+import { cryptoPassWord } from 'src/constants/constants.crypto';
 import { Repository } from 'typeorm';
 import { Users } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';

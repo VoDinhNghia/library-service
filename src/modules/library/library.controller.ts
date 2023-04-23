@@ -8,9 +8,11 @@ import { CreateLibraryDto } from './dtos/library.create.dto';
 import { LibraryService } from './library.service';
 import { Response } from 'express';
 import { UpdateLibraryDto } from './dtos/library.update.dto';
+import { libraryController } from 'src/constants/constants.controller.name';
+import { libraryMsg } from 'src/constants/constants.message.response';
 
-@Controller('api/library')
-@ApiTags('library')
+@Controller(libraryController.name)
+@ApiTags(libraryController.tag)
 export class LibraryController {
   constructor(private readonly service: LibraryService) {
     const createLibraryDto: CreateLibraryDto = {
@@ -29,12 +31,12 @@ export class LibraryController {
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     const result = await this.service.updateLibrary(libraryDto);
-    return new ResponseRequest(res, result, 'Update library success');
+    return new ResponseRequest(res, result, libraryMsg.update);
   }
 
   @Get()
   async getLibraryInfo(@Res() res: Response): Promise<ResponseRequest> {
     const result = await this.service.getLibraryInfo();
-    return new ResponseRequest(res, result, 'Get library info success.');
+    return new ResponseRequest(res, result, libraryMsg.getInfo);
   }
 }
