@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateLibraryDto } from './dtos/library.create.dto';
 import { UpdateLibraryDto } from './dtos/library.update.dto';
 import { Library } from './entities/library.entity';
+import { roomMsg } from 'src/constants/constants.message.response';
 
 @Injectable()
 export class LibraryService {
@@ -40,7 +41,7 @@ export class LibraryService {
       relations: { librarian: true },
     });
     if (!result) {
-      new CommonException(404, 'Room not found.');
+      new CommonException(404, roomMsg.notFound);
     }
     return result;
   }
