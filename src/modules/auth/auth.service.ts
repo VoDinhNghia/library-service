@@ -7,7 +7,8 @@ import { Users } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginDto } from './dtos/auth.login.dto';
 import { UserResponseDto } from '../users/dtos/users.response.dto';
-import { EstatusUser } from 'src/constants/constant';
+import { authMsg } from 'src/constants/constants.message.response';
+import { statusCodeRes } from 'src/constants/constants.http-status-code';
 
 @Injectable()
 export class AuthService {
@@ -18,10 +19,9 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<UserResponseDto> {
-    const { email, passWord } = loginDto;
-    const user: UserResponseDto = await this.findUserAuth(email, passWord);
+    const user: UserResponseDto = await this.findUserAuth(loginDto);
     if (!user) {
-      new CommonException(401, `User or password incorrect.`);
+      new CommonException(statusCodeRes.UN_AUTHORIZED, authMsg.unAuthorized);
     }
     const result: UserResponseDto & { accessToken: string } = {
       ...user,
@@ -30,15 +30,12 @@ export class AuthService {
     return result;
   }
 
-  async findUserAuth(
-    email: string,
-    passWord: string,
-  ): Promise<UserResponseDto | null> {
-    const password = cryptoPassWord(passWord);
+  async findUserAuth(loginDto: LoginDto): Promise<UserResponseDto | null> {
+    const { password, email } = loginDto;
+    const passwordEncryt = cryptoPassWord(password);
     const result = await this.usersRepository.findOneBy({
       email,
-      passWord: password,
-      status: EstatusUser.ACTIVE,
+      password: passwordEncryt,
     });
     return result ?? null;
   }

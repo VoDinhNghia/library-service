@@ -1,8 +1,10 @@
-export const libraryMsg = {
-  update: 'Update library success',
-  getInfo: 'Get library info success',
+export const userMsg = {
+  create: 'Create user success',
+  update: 'Update user success',
+  listUsers: 'Get list users success',
 };
 
-export const roomMsg = {
-  notFound: 'Room not found',
+export const authMsg = {
+  login: 'Login success',
+  unAuthorized: 'User or password incorrect',
 };

@@ -1,7 +1,7 @@
 import { createCipheriv, createDecipheriv, createHash } from 'crypto';
 
 export const key = () => {
-  const salt = 'student api @10NH';
+  const salt = 'ecommerce api @10NH';
   const hash = createHash('sha1');
   hash.update(salt);
   const key = hash.digest().slice(0, 16);

@@ -20,4 +20,7 @@ export class EntityBasic {
 
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;
+
+  @Column({ default: false })
+  isDeleted?: boolean;
 }
