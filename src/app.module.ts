@@ -4,8 +4,13 @@ import { UsersModule } from './modules/users/users.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { CronjobModule } from './modules/cronjob/cronjob.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
+import { LibraryModule } from './modules/library/library.module';
+import { LibraryServicesModule } from './modules/library-services/library-services.module';
+import { ChatModule } from './modules/chat/chat.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +33,11 @@ import { AuthModule } from './modules/auth/auth.module';
     ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
+    CronjobModule,
+    RoomsModule,
+    LibraryModule,
+    LibraryServicesModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

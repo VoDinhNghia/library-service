@@ -1,9 +1,19 @@
-import { Body, Controller, Logger, Post, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { ResponseRequest } from 'src/utils/utils.response-api';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ResponseRequest } from 'src/utils/response-api';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/auth.login.dto';
-import { authMsg } from 'src/constants/constants.message.response';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Request } from 'express';
 
 @Controller('api/auth')
 @ApiTags('auth')
@@ -18,6 +28,15 @@ export class AuthController {
   ): Promise<ResponseRequest> {
     this.logger.log('api login');
     const checkUser = await this.authService.login(loginDto);
-    return new ResponseRequest(res, checkUser, authMsg.login);
+    return new ResponseRequest(res, checkUser, `Login sucess.`);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('/me')
+  getProfile(@Req() req: Request, @Res() res: Response) {
+    this.logger.log('api get me');
+    const { user }: Request = req;
+    return new ResponseRequest(res, user, `Get me success.`);
   }
 }

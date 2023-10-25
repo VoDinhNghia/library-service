@@ -1,9 +1,8 @@
-import { EgenderUser, ErolesUser } from 'src/constants/constant';
-import { GenerateCode } from 'src/utils/utils.generate.code';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { UserRelation } from './user.entity.relation';
 
 @Entity()
-export class Users {
+export class Users extends UserRelation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -16,39 +15,39 @@ export class Users {
   @Column({ default: false })
   isDeleted?: boolean;
 
-  @Column({ nullable: true })
-  deletedAt?: Date;
-
-  @Column({ length: 200 })
+  @Column({ length: 100 })
   email?: string;
 
-  @Column()
+  @Column({ nullable: true })
   firstName?: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName?: string;
 
   @Column({ nullable: true })
   middleName?: string;
 
   @Column()
-  password?: string;
+  userId?: string;
+
+  @Column()
+  code?: string;
+
+  @Column()
+  profileId?: string;
+
+  @Column()
+  passWord?: string;
 
   @Column({ nullable: true })
-  avatar?: string;
+  avatar?: string; // link url BE
 
-  @Column({ default: ErolesUser.USER })
+  @Column()
+  status?: string;
+
+  @Column()
   role?: string;
 
-  @Column()
+  @Column({ nullable: true })
   mobile?: string;
-
-  @Column({ default: EgenderUser.MALE })
-  gender?: string;
-
-  @Column()
-  address?: string;
-
-  @Column({ default: new GenerateCode().getCodeUser(7) })
-  code?: string;
 }

@@ -17,6 +17,9 @@ export class UserResponseDto {
   createdBy?: string;
 
   @ApiProperty()
+  deletedBy?: string;
+
+  @ApiProperty()
   email?: string;
 
   @ApiProperty()
@@ -29,17 +32,26 @@ export class UserResponseDto {
   middleName?: string;
 
   @ApiProperty()
+  userId?: string;
+
+  @ApiProperty()
+  code?: string;
+
+  @ApiProperty()
+  profileId?: string;
+
+  @ApiProperty()
   avatar?: string;
 
   @ApiProperty()
-  password?: string;
+  passWord?: string;
+
+  @ApiProperty()
+  status?: string;
 
   @ApiProperty()
   role?: string;
 
   @ApiProperty()
   mobile?: string;
-
-  @ApiProperty()
-  gender?: string;
 }
